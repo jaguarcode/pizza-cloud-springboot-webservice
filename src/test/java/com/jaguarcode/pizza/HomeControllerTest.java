@@ -1,4 +1,4 @@
-package com.jaguarcode.tomato;
+package com.jaguarcode.pizza;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.mockito.Mockito.verify;
@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
+
+import com.jaguarcode.pizza.HomeController;
 
 @WebMvcTest(HomeController.class)
 public class HomeControllerTest {

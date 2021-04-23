@@ -1,4 +1,4 @@
-package com.jaguarcode.tomato;
+package com.jaguarcode.pizza;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

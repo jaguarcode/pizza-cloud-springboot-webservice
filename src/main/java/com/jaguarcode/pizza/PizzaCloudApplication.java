@@ -1,13 +1,13 @@
-package com.jaguarcode.tomato;
+package com.jaguarcode.pizza;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TomatoCloudApplication {
+public class PizzaCloudApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TomatoCloudApplication.class, args);
+		SpringApplication.run(PizzaCloudApplication.class, args);
 	}
 
 }

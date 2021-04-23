@@ -1,10 +1,10 @@
-package com.jaguarcode.tomato;
+package com.jaguarcode.pizza;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TomatoCloudApplicationTests {
+class PizzaCloudApplicationTests {
 
 	@Test
 	void contextLoads() {
