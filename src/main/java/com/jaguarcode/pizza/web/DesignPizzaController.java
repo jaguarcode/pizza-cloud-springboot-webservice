@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -52,8 +54,8 @@ public class DesignPizzaController {
 	}
 	
 	@PostMapping
-	public String processDesign(Pizza design) {
-		//if (errors.hasErrors()) return "design";
+	public String processDesign(@Valid Pizza design, Errors errors) {
+		if (errors.hasErrors()) return "design";
 		log.info("Processing design: " + design);
 		return "redirect:/orders/current";
 	}
