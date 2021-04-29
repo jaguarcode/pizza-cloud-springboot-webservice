@@ -1,14 +1,32 @@
 package com.jaguarcode.pizza.security;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	@Autowired
+	DataSource dataSource;
+	
+	@Autowired
+	private UserDetailsService userDetailsService;
+	
+	@Bean
+	public PasswordEncoder encoder() {
+		return new BCryptPasswordEncoder();
+	}
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -24,6 +42,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
+		// 인메모리 사용자 스토어에 사용자 정의하기
+		/*
 		auth.inMemoryAuthentication()
 				.withUser("user1")
 				.password("{noop}password1")
@@ -32,6 +52,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.withUser("user2")
 				.password("{noop}password2")
 				.authorities("ROLE_USER");
+		*/
+		// JDBC 사용자 정의하기
+		/*
+		auth
+			.jdbcAuthentication()
+			 .dataSource(dataSource)
+			 .usersByUsernameQuery(
+					 "select username, password, enabled from users where username=?")
+			 .authoritiesByUsernameQuery(
+					 "select username, authority from authorities where username=?")
+			 .passwordEncoder(new NoEncodingPasswordEncoder());
+		*/
+		// 사용자 커스터마이징 하기
+		auth
+			.userDetailsService(userDetailsService)
+			.passwordEncoder(encoder());
 	}
-	
 }
