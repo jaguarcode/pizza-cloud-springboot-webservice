@@ -1,5 +1,6 @@
 package com.jaguarcode.pizza.web;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,8 +21,10 @@ import com.jaguarcode.pizza.Ingredient;
 import com.jaguarcode.pizza.Ingredient.Type;
 import com.jaguarcode.pizza.Order;
 import com.jaguarcode.pizza.Pizza;
+import com.jaguarcode.pizza.User;
 import com.jaguarcode.pizza.data.IngredientRepository;
 import com.jaguarcode.pizza.data.PizzaRepository;
+import com.jaguarcode.pizza.data.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,15 +38,20 @@ public class DesignPizzaController {
 	
 	private PizzaRepository pizzaRepo;
 	
+	private UserRepository userRepo;
+	
 	@Autowired
 	public DesignPizzaController(
-			IngredientRepository ingredientRepo, PizzaRepository pizzaRepo) {
+			IngredientRepository ingredientRepo, 
+			PizzaRepository pizzaRepo,
+			UserRepository userRepo) {
 		this.ingredientRepo = ingredientRepo;
 		this.pizzaRepo = pizzaRepo;
+		this.userRepo = userRepo;
 	}
 	
 	@GetMapping
-	public String showDesignForm(Model model) {
+	public String showDesignForm(Model model, Principal principal) {
 		
 		List<Ingredient> ingredients = new ArrayList<>();
 		ingredientRepo.findAll().forEach(i -> ingredients.add(i));
@@ -54,7 +62,11 @@ public class DesignPizzaController {
 					filterByType(ingredients, type));
 		}
 		
-		model.addAttribute("pizza", new Pizza());
+		//model.addAttribute("pizza", new Pizza());
+		
+		String username = principal.getName();
+		User user = userRepo.findByUsername(username);
+		model.addAttribute("user", user);
 		
 		return "design";
 	}
